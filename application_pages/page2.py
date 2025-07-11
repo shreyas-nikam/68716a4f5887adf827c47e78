@@ -49,24 +49,24 @@ def display_scenarios_comparison_streamlit(scenarios_dict):
     return df
 
 def run_page2():
-    st.header(\"Scenario Comparison\")
-    st.markdown(\"Calculate RARORAC on the first page, then save scenarios here to compare them.\")
+    st.header("Scenario Comparison")
+    st.markdown("Calculate RARORAC on the first page, then save scenarios here to compare them.")
 
     # Scenario Saving
-    st.subheader(\"Save Current Scenario\")
-    scenario_name = st.text_input(\"Scenario Name\")
-    if st.button(\"Save Current Scenario\") and scenario_name:
+    st.subheader("Save Current Scenario")
+    scenario_name = st.text_input("Scenario Name")
+    if st.button("Save Current Scenario") and scenario_name:
         if 'current_rarorac_params' in st.session_state and 'current_rarorac_results' in st.session_state:
             save_scenario_streamlit(scenario_name, st.session_state['current_rarorac_params'], st.session_state['current_rarorac_results'])
-            st.success(f\"Scenario '{scenario_name}' saved successfully!\")
+            st.success(f"Scenario '{scenario_name}' saved successfully!")
         else:
-            st.warning(\"Please calculate a RARORAC on the 'RARORAC Calculator' page first.\")
+            st.warning("Please calculate a RARORAC on the 'RARORAC Calculator' page first.")
 
     # Scenario Comparison Display
-    st.subheader(\"Compare Scenarios\")
-    if st.button(\"Clear All Scenarios\"):
+    st.subheader("Compare Scenarios")
+    if st.button("Clear All Scenarios"):
         st.session_state.saved_scenarios = {}
-        st.info(\"All scenarios cleared.\")
+        st.info("All scenarios cleared.")
 
     display_scenarios_comparison_streamlit(st.session_state.saved_scenarios)
 

@@ -25,40 +25,40 @@ def generate_portfolio_data(num_deals, risk_range, return_range, skewed):
     return df
 
 def run_page3():
-    st.header(\"Portfolio Quality Visualization\")
-    st.markdown(\"Visualize portfolio risk/return distribution. Skewed portfolios concentrate deals in areas of high risk and/or low return.\")
+    st.header("Portfolio Quality Visualization")
+    st.markdown("Visualize portfolio risk/return distribution. Skewed portfolios concentrate deals in areas of high risk and/or low return.")
 
-    st.sidebar.subheader(\"Portfolio Parameters\")
+    st.sidebar.subheader("Portfolio Parameters")
 
     num_deals = st.sidebar.number_input(
-        label=\"Number of Deals\",
+        label="Number of Deals",
         min_value=10,
         max_value=500,
         value=100,
         step=10
     )
-    st.sidebar.info(\"The number of synthetic deals to generate for the portfolio.\")
+    st.sidebar.info("The number of synthetic deals to generate for the portfolio.")
 
     risk_range = st.sidebar.slider(
-        label=\"Risk Score Range\",
+        label="Risk Score Range",
         min_value=0.01,
         max_value=0.99,
         value=(0.1, 0.5),
         step=0.01
     )
-    st.sidebar.info(\"The range of risk scores for the generated deals.\")
+    st.sidebar.info("The range of risk scores for the generated deals.")
 
     return_range = st.sidebar.slider(
-        label=\"Return Ratio Range\",
+        label="Return Ratio Range",
         min_value=0.01,
         max_value=0.50,
         value=(0.05, 0.20),
         step=0.01
     )
-    st.sidebar.info(\"The range of return ratios for the generated deals.\")
+    st.sidebar.info("The range of return ratios for the generated deals.")
 
-    skewed = st.sidebar.checkbox(\"Skewed Portfolio\", value=False)
-    st.sidebar.info(\"Toggle to generate a portfolio skewed towards higher risk and lower return.\")
+    skewed = st.sidebar.checkbox("Skewed Portfolio", value=False)
+    st.sidebar.info("Toggle to generate a portfolio skewed towards higher risk and lower return.")
 
     # Generate portfolio data
     portfolio_data = generate_portfolio_data(num_deals, risk_range, return_range, skewed)

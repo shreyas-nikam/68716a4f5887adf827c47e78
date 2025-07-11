@@ -1,0 +1,127 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Exploring Risk Management with RARORAC</title>
+  <script src="../../bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <link rel="import" href="../../elements/codelab.html">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <style is="custom-style">
+    body {
+      font-family: "Roboto",sans-serif;
+      background: var(--google-codelab-background, --paper-grey-300);
+    }
+  </style>
+  
+</head>
+<body unresolved class="fullbleed">
+
+  <google-codelab title="Exploring Risk Management with RARORAC"
+                  environment="web"
+                  feedback-link="">
+    
+      <google-codelab-step label="Introduction to Risk Management and RARORAC" duration="300">
+          Welcome to QuLab: Risk Management Framework Lab 2. This lab is designed to help you understand core concepts in financial risk management, particularly how financial institutions assess the profitability of deals relative to the risks they take.  At the heart of this is the <strong>Risk Management Framework</strong>, a structured approach used by banks and other financial firms to identify, measure, monitor, and control risk. A critical part of this framework is <strong>Risk-Sensitive Pricing</strong>, which ensures that the price (or return) of a product or service (like a loan) adequately compensates the institution for the risk assumed.  This application focuses on a key metric used in risk-sensitive pricing: <strong>RARORAC (Risk-Adjusted Return on Risk-Adjusted Capital)</strong>. RARORAC helps answer the fundamental question: is the return from this deal sufficient given the capital we must hold to cover potential unexpected losses?   Understanding RARORAC is crucial because it moves beyond simple profit calculation. It explicitly incorporates the cost of risk capital, ensuring that deals are profitable not just in isolation, but in a way that supports the overall financial health and stability of the institution.   In this lab, you will use the application to:  <ul>
+<li>Calculate RARORAC for hypothetical deals and understand what drives its value.</li>
+<li>Save and compare different deal scenarios to see how changing parameters impacts performance.</li>
+<li>Visualize how the distribution of risk and return across a portfolio of deals affects its overall quality, and understand the consequences of risk-insensitive pricing.</li>
+</ul>
+  The application is divided into three main pages, which you can navigate using the sidebar:  <ul>
+<li>strong</li>
+<li>strong</li>
+<li>strong</li>
+</ul>
+  Let’s begin by exploring the RARORAC Calculator.  
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Calculating RARORAC for a Deal" duration="600">
+          Navigate to the “RARORAC Calculator” page using the dropdown in the sidebar.  This page allows you to input parameters for a hypothetical financial deal, typically a loan, and see the resulting RARORAC and other relevant metrics. The inputs are located in the sidebar under “Deal Parameters”.  Let’s look at the inputs:  <ul>
+<li>strong</li>
+<li>strong</li>
+<li>strong</li>
+<li>strong</li>
+<li>strong</li>
+<li>strong</li>
+<li>strong</li>
+</ul>
+  As you adjust these parameters in the sidebar, the metrics displayed in the main area of the page will automatically update.  The metrics displayed are based on the following formulas (also shown on the main page):  $$ \text{Income_From_Deal} = \text{Loan_Amount} \times \text{Interest_Rate} + \text{Fees} $$ This is the total revenue before considering costs and losses.  $$ \text{Operating_Costs} = \text{Income_From_Deal} \times \text{Operating_Cost_Ratio} $$ These are the expenses directly associated with the deal, calculated as a percentage of the income.  $$ \text{Expected_Loss} = \text{Loan_Amount} \times \text{Expected_Loss_Rate} $$ This is the statistically predicted average loss.  $$ \text{Net_Risk_Adjusted_Reward} = \text{Income_From_Deal} - \text{Operating_Costs} - \text{Expected_Loss} $$ This is the numerator of RARORAC, representing the income adjusted for direct costs and the expected loss.  $$ \text{Risk_Adjusted_Capital} = \text{Loan_Amount} \times \text{Unexpected_Loss_Capital_Allocation_Factor} $$ This is the denominator of RARORAC, the capital set aside to buffer against unexpected losses.  $$ \text{RARORAC} = \frac{\text{Net_Risk_Adjusted_Reward}}{\text{Risk_Adjusted_Capital}} $$ This is the final metric, expressing the risk-adjusted reward as a percentage of the capital required to support the risk.   Play around with the parameters! See how increasing the `Expected Loss Rate` or the `Unexpected Loss Capital Allocation Factor` impacts the `Net Risk-Adjusted Reward` and the `Risk-Adjusted Capital`, and most importantly, the final `RARORAC`. Notice how a higher Hurdle Rate makes it harder for a deal to pass.   The “Deal Outcome” tells you whether the calculated RARORAC meets or falls below the specified Hurdle Rate. This is a crucial decision point for financial institutions deciding whether to pursue a deal.  Once you have a set of parameters and results you like, you can save them for comparison in the next step.  
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Comparing Different Deal Scenarios" duration="420">
+          Navigate to the “Scenario Comparison” page using the dropdown in the sidebar.  This page allows you to save the results of different deal calculations from the “RARORAC Calculator” page and view them side-by-side. This is useful for comparing different potential deals or analyzing how changes to deal terms (like interest rate) or risk assessments (like expected loss) impact the RARORAC and deal outcome.  To save a scenario:  <ol start="1">
+<li>Go back to the “RARORAC Calculator” page.</li>
+<li>Set the parameters for a deal.</li>
+<li>Observe the calculated metrics.</li>
+<li>Go to the “Scenario Comparison” page.</li>
+<li>Enter a descriptive name for your scenario in the “Scenario Name” text input (e.g., “Scenario A: Standard Deal”, “Scenario B: High Risk Client”).</li>
+<li>Click the “Save Current Scenario” button.</li>
+</ol>
+   You will see a success message indicating the scenario has been saved. If you haven&#39;t calculated a RARORAC yet in the current session, it will prompt you to do so first.   Repeat this process for several different sets of parameters to create multiple scenarios.  After saving scenarios, they will appear in a table under “Compare Scenarios”. This table lists the input parameters and the resulting calculated metrics (Income, Costs, Losses, Reward, Capital, RARORAC, and Deal Outcome) for each saved scenario.  Examine the table. How do the parameters differ between scenarios? How do these differences translate into the final RARORAC and the Deal Outcome? This comparison helps build intuition about which factors have the biggest impact on a deal’s risk-adjusted profitability.  You can save as many scenarios as you like during your session. If you want to start fresh, click the “Clear All Scenarios” button.  
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Visualizing Portfolio Quality" duration="480">
+          Navigate to the “Portfolio Quality Visualization” page using the dropdown in the sidebar.  This page demonstrates the concept of portfolio quality by visualizing a collection of hypothetical deals based on their risk and return characteristics. While the RARORAC calculator focuses on a single deal, financial institutions manage portfolios of many deals. The overall risk and return distribution of the portfolio is critical.  The inputs for this visualization are in the sidebar under “Portfolio Parameters”:  <ul>
+<li>strong</li>
+<li>strong</li>
+<li>strong</li>
+<li>strong</li>
+</ul>
+  The main area displays a scatter plot:  <ul>
+<li>The </li>
+<li>The </li>
+<li>Each </li>
+</ul>
+   Hover over a point to see its specific Risk Score and Return Ratio.   First, generate a portfolio with “Skewed Portfolio” unchecked. Observe the distribution of the points. They should be spread relatively uniformly across the plot area defined by the chosen ranges.  Now, check the “Skewed Portfolio” box (you might need to adjust the other parameters slightly or click the checkbox again if the plot doesn’t refresh automatically). Notice how the distribution changes. More points will appear towards the right side (higher risk) and lower side (lower return) of the plot.  This skewed distribution represents a portfolio where a significant portion of deals have high risk but offer inadequate returns to compensate for that risk. This is often a result of <strong>risk-insensitive pricing</strong>, where deals are priced based on factors other than their true risk (e.g., competitive pressure leading to low interest rates for risky clients). A portfolio with a high concentration of such deals is considered low quality and can significantly erode the financial institution’s value over time.  The visualization helps illustrate the importance of risk-sensitive pricing (like using RARORAC) to ensure that deals are priced appropriately for their risk, leading to a healthier, higher-quality portfolio distribution where high-risk deals also offer commensurately high returns, and low-return deals are low risk.  
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Conclusion" duration="120">
+          Congratulations! You have successfully completed this lab exploring key aspects of financial risk management.  You have learned:  <ul>
+<li>The importance of the </li>
+<li>How to calculate and interpret </li>
+<li>The value of </li>
+<li>How </li>
+</ul>
+  This lab provides a foundational understanding of how financial firms use metrics like RARORAC and concepts like portfolio quality to make informed decisions that balance profitability with risk.  You can now revisit any of the pages to further experiment with the parameters and deepen your understanding. 
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    ga('create', 'UA-49880327-14', 'auto');
+
+    (function() {
+      var gaCodelab = '';
+      if (gaCodelab) {
+        ga('create', gaCodelab, 'auto', {name: 'codelab'});
+      }
+
+      var gaView;
+      var parts = location.search.substring(1).split('&');
+      for (var i = 0; i < parts.length; i++) {
+        var param = parts[i].split('=');
+        if (param[0] === 'viewga') {
+          gaView = param[1];
+          break;
+        }
+      }
+      if (gaView && gaView !== gaCodelab) {
+        ga('create', gaView, 'auto', {name: 'view'});
+      }
+    })();
+  </script>
+
+</body>
+</html>
