@@ -25,64 +25,207 @@ def generate_portfolio_data(num_deals, risk_range, return_range, skewed):
     return df
 
 def run_page3():
-    st.header("Portfolio Quality Visualization")
-    st.markdown("Visualize portfolio risk/return distribution. Skewed portfolios concentrate deals in areas of high risk and/or low return.")
+    st.header("📈 Portfolio Quality Visualization")
+    
+    # Introduction and Instructions
+    st.markdown("""
+    ### 📋 **About Portfolio Quality Analysis**
+    
+    This page helps you visualize how risk and return are distributed across your portfolio of deals. Understanding portfolio quality is crucial for:
+    
+    **Key Concepts:**
+    - **Risk Score**: Represents the expected loss rate of each deal
+    - **Return Ratio**: Represents the RARORAC of each deal
+    - **Portfolio Quality**: How well your deals balance risk and return
+    - **Skewed Portfolios**: Concentration in high-risk, low-return areas (bad!)
+    - **Balanced Portfolios**: Good distribution across risk-return spectrum (good!)
+    
+    **What to look for:**
+    - ✅ **Good Portfolio**: Deals clustered in low-risk, high-return areas
+    - ❌ **Poor Portfolio**: Too many deals in high-risk, low-return areas
+    - 🎯 **Ideal**: Most deals above the hurdle rate line
+    """)
+    
+    st.markdown("---")
+    
+    st.markdown("Visualize portfolio risk/return distribution based on your saved scenarios, or explore with synthetic data.")
 
-    st.sidebar.subheader("Portfolio Parameters")
+    # Check if there are saved scenarios
+    if st.session_state.saved_scenarios:
+        st.subheader("🎯 Your Real Portfolio Analysis")
+        st.markdown(f"""
+        **Analyzing {len(st.session_state.saved_scenarios)} saved scenarios** from your RARORAC calculations.
+        Each point represents one of your saved deal scenarios.
+        """)
+        
+        # Extract data from saved scenarios
+        portfolio_data = []
+        for scenario_name, scenario_data in st.session_state.saved_scenarios.items():
+            results = scenario_data["results"]
+            parameters = scenario_data["parameters"]
+            
+            # Use Expected Loss Rate as Risk Score and RARORAC as Return Ratio
+            risk_score = parameters.get("expected_loss_rate", 0)
+            return_ratio = results.get("RARORAC", 0)
+            
+            portfolio_data.append({
+                'Scenario_Name': scenario_name,
+                'Risk_Score': risk_score,
+                'Return_Ratio': return_ratio,
+                'Deal_Outcome': results.get("Deal_Outcome", "Unknown")
+            })
+        
+        df_real = pd.DataFrame(portfolio_data)
+        
+        # Create scatter plot with real data
+        chart_real = alt.Chart(df_real).mark_point(size=100).encode(
+            x=alt.X('Risk_Score', axis=alt.Axis(title='Risk Score (Expected Loss Rate)')),
+            y=alt.Y('Return_Ratio', axis=alt.Axis(title='Return Ratio (RARORAC)')),
+            color=alt.Color('Deal_Outcome', 
+                          scale=alt.Scale(range=['red', 'green']),
+                          legend=alt.Legend(title="Deal Outcome")),
+            tooltip=['Scenario_Name', 'Risk_Score', 'Return_Ratio', 'Deal_Outcome']
+        ).properties(
+            title='Your Portfolio Quality Distribution (From Saved Scenarios)',
+            width=600,
+            height=400
+        ).interactive()
 
-    num_deals = st.sidebar.number_input(
-        label="Number of Deals",
-        min_value=10,
-        max_value=500,
-        value=100,
-        step=10
-    )
-    st.sidebar.info("The number of synthetic deals to generate for the portfolio.")
+        st.altair_chart(chart_real, use_container_width=True)
+        
+        # Portfolio Analysis
+        st.subheader("📊 Portfolio Performance Summary")
+        
+        # Display summary statistics
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.metric("📈 Total Scenarios", len(df_real))
+        with col2:
+            meets_hurdle = len(df_real[df_real['Deal_Outcome'] == 'Meets Hurdle Rate'])
+            success_rate = (meets_hurdle / len(df_real)) * 100
+            st.metric("✅ Success Rate", f"{success_rate:.1f}%")
+        with col3:
+            avg_rarorac = df_real['Return_Ratio'].mean()
+            st.metric("📊 Avg RARORAC", f"{avg_rarorac:.2%}")
+        with col4:
+            avg_risk = df_real['Risk_Score'].mean()
+            st.metric("⚠️ Avg Risk", f"{avg_risk:.2%}")
+            
+        # Portfolio Quality Assessment
+        st.subheader("🎯 Portfolio Quality Assessment")
+        
+        if success_rate >= 80:
+            st.success("🎉 **Excellent Portfolio!** Most of your deals meet the hurdle rate.")
+        elif success_rate >= 60:
+            st.warning("⚡ **Good Portfolio** but room for improvement. Consider reducing risk or improving returns.")
+        else:
+            st.error("🚨 **Portfolio Needs Attention!** Too many deals fail to meet the hurdle rate.")
+            
+        # Risk-Return Analysis
+        high_risk_deals = len(df_real[df_real['Risk_Score'] > df_real['Risk_Score'].median()])
+        if high_risk_deals > len(df_real) * 0.6:
+            st.warning(f"⚠️ **High Risk Concentration**: {high_risk_deals} out of {len(df_real)} deals are above median risk.")
+            
+        st.markdown("---")
+        
+    else:
+        st.info("🔍 **No saved scenarios found.** Go to 'RARORAC Calculator & Scenarios' to create and save some scenarios first!")
+        st.markdown("**Why create scenarios first?** Real portfolio analysis is much more meaningful than synthetic data!")
+        st.markdown("---")
+    
+    # Optional synthetic data section
+    with st.expander("🧪 Explore with Synthetic Portfolio Data", expanded=not bool(st.session_state.saved_scenarios)):
+        st.markdown("Generate synthetic portfolio data to understand portfolio quality concepts.")
 
-    risk_range = st.sidebar.slider(
-        label="Risk Score Range",
-        min_value=0.01,
-        max_value=0.99,
-        value=(0.1, 0.5),
-        step=0.01
-    )
-    st.sidebar.info("The range of risk scores for the generated deals.")
+    # Optional synthetic data section
+    with st.expander("🧪 Explore Portfolio Concepts with Synthetic Data", expanded=not bool(st.session_state.saved_scenarios)):
+        st.markdown("""
+        **Learning Opportunity:** Use synthetic data to understand portfolio quality concepts before applying them to real scenarios.
+        
+        **Experiment with:**
+        - Different portfolio sizes (number of deals)
+        - Various risk ranges
+        - Normal vs. skewed distributions
+        - Impact on overall portfolio quality
+        """)
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            st.subheader("🎛️ Portfolio Parameters")
 
-    return_range = st.sidebar.slider(
-        label="Return Ratio Range",
-        min_value=0.01,
-        max_value=0.50,
-        value=(0.05, 0.20),
-        step=0.01
-    )
-    st.sidebar.info("The range of return ratios for the generated deals.")
+            num_deals = st.number_input(
+                label="Number of Deals",
+                min_value=10,
+                max_value=500,
+                value=100,
+                step=10
+            )
+            st.caption("📊 More deals = better statistical representation")
 
-    skewed = st.sidebar.checkbox("Skewed Portfolio", value=False)
-    st.sidebar.info("Toggle to generate a portfolio skewed towards higher risk and lower return.")
+            risk_range = st.slider(
+                label="Risk Score Range",
+                min_value=0.01,
+                max_value=0.99,
+                value=(0.1, 0.5),
+                step=0.01
+            )
+            st.caption("⚠️ Range of expected loss rates in the portfolio")
 
-    # Generate portfolio data
-    portfolio_data = generate_portfolio_data(num_deals, risk_range, return_range, skewed)
+        with col2:
+            st.subheader("📈 Return Parameters")
+            
+            return_range = st.slider(
+                label="Return Ratio Range",
+                min_value=0.01,
+                max_value=0.50,
+                value=(0.05, 0.20),
+                step=0.01
+            )
+            st.caption("💰 Range of RARORAC values in the portfolio")
 
-    # Create the scatter plot
-    chart = alt.Chart(portfolio_data).mark_point().encode(
-        x=alt.X('Risk_Score', axis=alt.Axis(title='Risk Score')),
-        y=alt.Y('Return_Ratio', axis=alt.Axis(title='Return Ratio')),
-        tooltip=['Risk_Score', 'Return_Ratio']
-    ).properties(
-        title='Portfolio Quality Distribution'
-    ).interactive()
+            skewed = st.checkbox("Generate Skewed Portfolio", value=False)
+            st.caption("🔄 Toggle to see how skewed risk-taking affects portfolio quality")
 
-    st.altair_chart(chart, use_container_width=True)
+        # Generate portfolio data
+        portfolio_data = generate_portfolio_data(num_deals, risk_range, return_range, skewed)
 
-    # Add a conceptual "Minimum Acceptable Risk Boundary" or "Hurdle Rate" line if relevant
-    # This is optional, adapt as needed, for now, it's commented out.
-    # source = pd.DataFrame({
-    #     'Risk_Score': [min(risk_range), max(risk_range)],
-    #     'Hurdle_Return': [0.10, 0.10] # Assuming a fixed hurdle rate for demonstration
-    # })
-    # line = alt.Chart(source).mark_line(color='red', strokeDash=[5,5]).encode(
-    #     x='Risk_Score',
-    #     y='Hurdle_Return'
-    # )
-    # final_chart = (chart + line).interactive()
-    # st.altair_chart(final_chart, use_container_width=True)
+        # Create the scatter plot
+        chart = alt.Chart(portfolio_data).mark_point(opacity=0.6).encode(
+            x=alt.X('Risk_Score', axis=alt.Axis(title='Risk Score (Expected Loss Rate)')),
+            y=alt.Y('Return_Ratio', axis=alt.Axis(title='Return Ratio (RARORAC)')),
+            tooltip=['Risk_Score', 'Return_Ratio']
+        ).properties(
+            title=f'{"Skewed" if skewed else "Balanced"} Synthetic Portfolio Distribution ({num_deals} deals)',
+            width=600,
+            height=400
+        ).interactive()
+
+        st.altair_chart(chart, use_container_width=True)
+        
+        # Analysis of synthetic portfolio
+        st.subheader("📊 Synthetic Portfolio Analysis")
+        
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            avg_risk = portfolio_data['Risk_Score'].mean()
+            st.metric("📈 Average Risk", f"{avg_risk:.2%}")
+        with col2:
+            avg_return = portfolio_data['Return_Ratio'].mean()
+            st.metric("💰 Average Return", f"{avg_return:.2%}")
+        with col3:
+            risk_return_ratio = avg_return / avg_risk if avg_risk > 0 else 0
+            st.metric("🎯 Return/Risk Ratio", f"{risk_return_ratio:.2f}")
+            
+        if skewed:
+            st.warning("⚠️ **Skewed Portfolio**: Notice how deals cluster in high-risk, low-return areas. This is bad for portfolio quality!")
+        else:
+            st.success("✅ **Balanced Portfolio**: Deals are well-distributed across the risk-return spectrum.")
+            
+        st.markdown("""
+        **💡 Key Insights:**
+        - **Balanced portfolios** have better risk-adjusted returns
+        - **Skewed portfolios** concentrate risk in unfavorable areas
+        - **Portfolio diversification** helps manage overall risk
+        - **Risk-sensitive pricing** can prevent skewed risk-taking
+        """)
