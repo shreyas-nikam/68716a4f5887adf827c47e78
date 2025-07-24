@@ -1,6 +1,6 @@
 
 import streamlit as st
-st.set_page_config(page_title="QuLab", layout="wide")
+st.set_page_config(page_title="QuLab: Risk-Adjusted Return (RARORAC) Calculator", layout="wide")
 
 # Initialize session state variables
 if 'saved_scenarios' not in st.session_state:
@@ -12,7 +12,7 @@ if 'current_rarorac_results' not in st.session_state:
 
 st.sidebar.image("https://www.quantuniversity.com/assets/img/logo5.jpg")
 st.sidebar.divider()
-st.title("QuLab: Risk Management Framework Lab 2")
+st.title("QuLab: Risk-Adjusted Return (RARORAC) Calculator")
 st.divider()
 
 page = st.sidebar.selectbox(label="Navigation", options=["RARORAC Calculator & Scenarios", "Portfolio Quality Visualization"])
@@ -27,10 +27,10 @@ elif page == "Portfolio Quality Visualization":
 st.markdown("---")
 st.subheader("References")
 st.markdown(r"""
-[15] *Operational Risk Manager Handbook*, Chapter 3: The Risk Management Framework, 'Risk Pricing' subsection.  
-[16] *Operational Risk Manager Handbook*, Chapter 3: The Risk Management Framework, 'Components of Determining Risk Pricing' subsection.  
-[17] *Operational Risk Manager Handbook*, Chapter 3: The Risk Management Framework, 'The Denominator' subsection.  
-[18] *Operational Risk Manager Handbook*, Chapter 3: The Risk Management Framework, 'Risk Insensitive Pricing and Client / Counterparty Behavior' and 'Risk Sensitive Pricing' subsections, referencing Figure 4: Portfolio Quality Distribution.
+[15] Chapter 3: The Risk Management Framework, 'Risk Pricing' subsection.  
+[16] Chapter 3: The Risk Management Framework, 'Components of Determining Risk Pricing' subsection.  
+[17] Chapter 3: The Risk Management Framework, 'The Denominator' subsection.  
+[18] Chapter 3: The Risk Management Framework, 'Risk Insensitive Pricing and Client / Counterparty Behavior' and 'Risk Sensitive Pricing' subsections, referencing Figure 4: Portfolio Quality Distribution.
 """)
 
 

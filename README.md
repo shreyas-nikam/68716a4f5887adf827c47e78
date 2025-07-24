@@ -1,10 +1,10 @@
-# QuLab: Risk Management Framework Lab 2 - Streamlit Application
+# QuLab: Risk-Adjusted Return (RARORAC) Calculator
 
 ![QuLab Logo](https://www.quantuniversity.com/assets/img/logo5.jpg)
 
 ## Project Description
 
-This Streamlit application, **QuLab: Risk Management Framework Lab 2**, is designed as an interactive learning tool to explore core concepts within the Risk Management Framework used by financial institutions. Specifically, it focuses on the **Risk-Adjusted Return on Risk-Adjusted Capital (RARORAC)** metric and the principles of risk-sensitive pricing.
+This Streamlit application, **QuLab: Risk-Adjusted Return (RARORAC) Calculator**, is designed as an interactive learning tool to explore core concepts within the Risk Management Framework used by financial institutions. Specifically, it focuses on the **Risk-Adjusted Return on Risk-Adjusted Capital (RARORAC)** metric and the principles of risk-sensitive pricing.
 
 Users can interact with key financial parameters to calculate RARORAC for hypothetical deals, compare different scenarios, and visualize portfolio quality distributions, gaining intuition about how risk impacts profitability and value creation in a financial context.
 
@@ -51,7 +51,7 @@ The required Python libraries are:
 2.  **Install dependencies:**
     It's recommended to use a virtual environment.
     ```bash
-    python -m venv .venv
+    python3 -m venv .venv
     source .venv/bin/activate  # On Windows use `.venv\Scripts\activate`
     pip install streamlit pandas numpy altair
     ```

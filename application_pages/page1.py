@@ -1,4 +1,3 @@
-
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -78,7 +77,7 @@ def run_page1():
     
     # Introduction and Instructions
     st.markdown("""
-    ### 📋 **Lab Instructions**
+    ### Lab Instructions
     
     Welcome to the RARORAC (Risk-Adjusted Return on Risk-Adjusted Capital) Calculator! This lab will help you understand how financial institutions evaluate the profitability of deals while accounting for risk.
     
@@ -89,16 +88,16 @@ def run_page1():
     - Portfolio risk management concepts
     
     **How to use this lab:**
-    1. 📊 **Adjust parameters** in the sidebar to see real-time RARORAC calculations
-    2. 💾 **Save scenarios** to compare different deal configurations
-    3. 📈 **Analyze results** to understand risk-return relationships
-    4. 🔄 **Experiment** with different values to see their impact
+    1. Adjust parameters in the sidebar to see real-time RARORAC calculations
+    2. Save scenarios to compare different deal configurations
+    3. Analyze results to understand risk-return relationships
+    4. Experiment with different values to see their impact
     """)
     
     st.markdown("---")
     
     # Formulae Section
-    st.subheader("📐 RARORAC Calculation Formulae")
+    st.subheader(" RARORAC Calculation Formulae")
     st.markdown("""
     These are the key formulae used in RARORAC calculations. Understanding these will help you interpret the results:
     """)
@@ -209,31 +208,31 @@ def run_page1():
         expected_loss_rate, ul_capital_factor, hurdle_rate
     )
 
-    st.subheader("📊 Calculated Results")
+    st.subheader("Calculated Results")
     st.markdown("Here are the calculated metrics based on your input parameters:")
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.metric(
-            label="💰 Income From Deal",
+            label="Income From Deal",
             value=f"${metrics['Income_From_Deal']:.2f}"
         )
         st.info("💡 **Total revenue** generated from interest payments and fees.")
 
     with col2:
         st.metric(
-            label="💸 Operating Costs",
+            label="Operating Costs",
             value=f"${metrics['Operating_Costs']:.2f}"
         )
         st.info("💡 **Operational expenses** as a percentage of income.")
 
     with col3:
         st.metric(
-            label="⚠️ Expected Loss",
+            label="Expected Loss",
             value=f"${metrics['Expected_Loss']:.2f}"
         )
-        st.info("💡 **Anticipated losses** due to defaults or credit events.")
+        st.info("**Anticipated losses** due to defaults or credit events.")
 
     st.markdown("---")
 
@@ -241,17 +240,17 @@ def run_page1():
 
     with col4:
         st.metric(
-            label="💎 Net Risk-Adjusted Reward",
+            label="Net Risk-Adjusted Reward",
             value=f"${metrics['Net_Risk_Adjusted_Reward']:.2f}"
         )
-        st.info("💡 **Final profit** after deducting all costs and expected losses.")
+        st.info("**Final profit** after deducting all costs and expected losses.")
 
     with col5:
         st.metric(
-            label="🛡️ Risk-Adjusted Capital",
+            label="Risk-Adjusted Capital",
             value=f"${metrics['Risk_Adjusted_Capital']:.2f}"
         )
-        st.info("💡 **Capital allocated** to cover unexpected losses (economic capital at risk).")
+        st.info("**Capital allocated** to cover unexpected losses (economic capital at risk).")
 
     st.markdown("---")
 
@@ -261,11 +260,11 @@ def run_page1():
     with col6:
         rarorac_value = metrics['RARORAC'] * 100 if metrics['RARORAC'] != float('inf') else float('inf')
         st.metric(
-            label="🎯 RARORAC",
+            label="RARORAC",
             value=f"{rarorac_value:.2f}%" if rarorac_value != float('inf') else "∞%",
             delta="Key Performance Indicator"
         )
-        st.info("💡 **Risk-adjusted profitability ratio** - higher is better!")
+        st.info("**Risk-adjusted profitability ratio** - higher is better!")
 
     with col7:
         deal_outcome_color = "green" if metrics['Deal_Outcome'] == 'Meets Hurdle Rate' else "red"
@@ -287,7 +286,7 @@ def run_page1():
 
     # Scenario Saving Section
     st.markdown("---")
-    st.subheader("💾 Save & Compare Scenarios")
+    st.subheader("Save & Compare Scenarios")
     st.markdown("""
     **Why save scenarios?** Compare different deal configurations to understand:
     - Which parameters have the biggest impact on profitability
@@ -299,31 +298,31 @@ def run_page1():
     
     with col_save:
         scenario_name = st.text_input("Scenario Name", placeholder="e.g., 'High Risk Deal', 'Conservative Option'")
-        if st.button("💾 Save Current Scenario", type="primary") and scenario_name:
+        if st.button("Save Current Scenario", type="primary") and scenario_name:
             save_scenario_streamlit(scenario_name, st.session_state['current_rarorac_params'], st.session_state['current_rarorac_results'])
-            st.success(f"✅ Scenario '{scenario_name}' saved successfully!")
+            st.success(f"Scenario '{scenario_name}' saved successfully!")
     
     with col_clear:
         st.write("")  # Empty space for alignment
         st.write("")  # Empty space for alignment
-        if st.button("🗑️ Clear All Scenarios", type="secondary"):
+        if st.button("Clear All Scenarios", type="secondary"):
             st.session_state.saved_scenarios = {}
-            st.info("🧹 All scenarios cleared.")
+            st.info("All scenarios cleared.")
 
     # Scenario Comparison Display
     if st.session_state.saved_scenarios:
-        st.subheader("📋 Saved Scenarios Comparison")
+        st.subheader("Saved Scenarios Comparison")
         st.markdown(f"**{len(st.session_state.saved_scenarios)} scenario(s) saved.** Use this table to compare different deal configurations:")
         display_scenarios_comparison_streamlit(st.session_state.saved_scenarios)
         
         # Analysis tips
         st.markdown("""
-        **💡 Analysis Tips:**
+        **Analysis Tips:**
         - Look for scenarios with high RARORAC that meet the hurdle rate
         - Compare how different risk factors affect profitability
         - Consider the trade-off between risk and return
         - Use these insights for portfolio-level decision making
         """)
     else:
-        st.info("💡 **Tip:** Save different scenarios to build a comparison table and analyze trade-offs between risk and return!")
+        st.info("**Tip:** Save different scenarios to build a comparison table and analyze trade-offs between risk and return!")
 
